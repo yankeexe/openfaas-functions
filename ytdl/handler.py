@@ -23,7 +23,6 @@ ydl_opts = {
 def handle(req):
     """handle a request to the function"""
     try:
-
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             data = ydl.extract_info(req, download=False)
             title = data["title"]
