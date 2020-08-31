@@ -4,14 +4,14 @@ provider:
   gateway: http://127.0.0.1:8080
 functions:
   pydict:
-    lang: python3-flask-debian
+    lang: flask-alpine
     handler: ./pydict
     image: localhost:5000/pydict:latest
-  ytdl: 
-    lang: python3-flask-debian
+  ytdl:
+    lang: flask-alpine
     handler: ./ytdl
     image: localhost:5000/ytdl:latest
-    environment: 
+    environment:
       read_timeout: 180s
       write_timeout: 180s
       exec_timeout: 180s
