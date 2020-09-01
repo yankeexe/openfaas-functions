@@ -3,7 +3,8 @@ import os
 import glob
 
 import youtube_dl
-from flask import Flask, render_template, request, send_file, abort
+from werkzeug.exceptions import InternalServerError
+from flask import Flask, request, send_file, abort
 
 
 ydl_opts = {
@@ -28,20 +29,29 @@ def handle(req):
             title = data["title"]
             ydl.download([req])
 
-        globs = glob.glob("*.mp3")
-        filename = globs[0]
+        filename = find_file()
 
-        return send_file(
-            filename,
-            mimetype="audio/mpeg",
-            as_attachment=True,
-            attachment_filename=f"{title}.mp3",
-        )
+        if not filename:
+            raise InternalServerError(
+                "Something went wrong in the server. Please try again later."
+            )
+
+        return send_file(filename, mimetype="audio/mpeg", as_attachment=True,)
     except youtube_dl.utils.DownloadError as err:
         abort(406, "URL format incorrect.")
     except Exception as err:
         abort(500)
-    else:
-        os.remove(filename)
+    finally:
+        filename = find_file()
+        if filename:
+            os.remove(filename)
 
-    return req
+
+def find_file():
+    """Checks if the file is downloaded."""
+    globs = glob.glob("*.mp3")
+
+    if len(globs) > 0:
+        return globs[0]
+    else:
+        return False
