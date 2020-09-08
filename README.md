@@ -7,7 +7,7 @@ Returns meaning of words provided.
 
 <details><summary><b>Installation Instructions</b></summary>
 
-**Build, Push, and Deploy the function** 
+**Build, Push, and Deploy the function**
 ```bash
 faas-cli build -f functions.yml --filter pydict
 
@@ -28,7 +28,7 @@ echo "brevity" | faas-cli invoke pydict
 Download mp3 from provided URL
 <details><summary><b>Installation Instructions</b></summary>
 
-**Build, Push, and Deploy the function** 
+**Build, Push, and Deploy the function**
 ```bash
 faas-cli build -f functions.yml --filter ytdl -b ADDITIONAL_PACKAGE=ffmpeg
 
@@ -45,3 +45,30 @@ echo "<url>" | faas-cli invoke ytdl > <filename.mp3>
 
 </details>
 
+
+
+## 3. [translator](https://github.com/yankeexe/openfaas-functions/tree/master/translator)
+Translate between languages.
+<details><summary><b>Installation Instructions</b></summary>
+
+**Build, Push, and Deploy the function**
+```bash
+faas-cli build -f functions.yml --filter translator
+
+faas-cli push -f functions.yml --filter translator
+
+faas-cli deploy -f functions.yml --filter translator
+```
+
+**Invoke the function:**
+Make sure the terminal supports encoding. If not use API testing tool like Insomnia or Postman.
+
+`des`: output language; defaults to `'en'`.
+
+Complete list of [supported languages](https://github.com/yankeexe/openfaas-functions/tree/master/translator/README.md).
+
+```bash
+echo '{"text": "नमस्ते", "des": "ko"}' | fc invoke translator --content-type "application/json"
+```
+
+</details>

@@ -15,5 +15,12 @@ functions:
       read_timeout: 180s
       write_timeout: 180s
       exec_timeout: 180s
-
+  translator:
+      lang: flask-alpine
+      handler: ./translator
+      image: localhost:5000/translate:latest
+      environment:
+        read_timeout: 180s
+        write_timeout: 180s
+        exec_timeout: 180s
 
